@@ -34,9 +34,8 @@ jobs:
                 chmod 400 azureuser
             - name: Deploy new image
               run: |
-                ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198
-                docker stop spadikam
-                docker rm spadikam
-                docker pull ${{secrets.DOCKERHUB_USER}}/spadikam:latest
-                docker run --name spadikam -d -p 80:3000 ${{secrets.DOCKERHUB_USER}}/spadikam:latest
+                ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198 'docker stop spadikam'
+                ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198 'docker rm spadikam'
+                ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198 'docker pull ${{secrets.DOCKERHUB_USER}}/spadikam:latest'
+                ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198 'docker run --name spadikam -d -p 80:3000 ${{secrets.DOCKERHUB_USER}}/spadikam:latest'
 
