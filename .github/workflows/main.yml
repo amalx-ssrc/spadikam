@@ -1,4 +1,4 @@
-name: Building Spadikam project
+name: The Spadikam project
 on: 
     push:
         branches:
@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-    build:
+    Buildandpublish:
         runs-on: "ubuntu-latest"
     
         steps:
@@ -16,8 +16,8 @@ jobs:
             - name: Login to GCR
               uses: docker/login-action@v1
               with:
-                username: ${{secrets.DOCKERHUB_USER}}
-                password: ${{secrets.DOCKERHUB_PASS}}
+                    username: ${{secrets.DOCKERHUB_USER}}
+                    password: ${{secrets.DOCKERHUB_PASS}}
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
@@ -28,4 +28,16 @@ jobs:
                 push: true
                 tags: ${{secrets.DOCKERHUB_USER}}/spadikam:latest
 
-                
+    deploySpadikam:
+        runs-on: "unbuntu-latest"
+        steps:
+            - name: Set permission for key
+              run: |
+                echo "${{ secrets.AZUREUSER_KEY}}" > azureuser
+                chmod 400 azureuser
+            - name: Deploy new image
+              run: |
+                ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198
+                docker stop spadikam
+                docker run --name spadikam -d -p 80:3000 spadikam:latest
+
