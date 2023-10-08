@@ -27,4 +27,4 @@ jobs:
               with:
                 file: ./Dockerfile
                 push: true
-                tags: ${{github.actor}}/spadikam:latest
+                tags: ghcr.io/${{github.actor}}/spadikam:latest
