@@ -27,10 +27,7 @@ jobs:
                 file: ./Dockerfile
                 push: true
                 tags: ${{secrets.DOCKERHUB_USER}}/spadikam:latest
-
-    deploySpadikam:
-        runs-on: "unbuntu-latest"
-        steps:
+                
             - name: Set permission for key
               run: |
                 echo "${{ secrets.AZUREUSER_KEY}}" > azureuser
