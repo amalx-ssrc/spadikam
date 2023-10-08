@@ -27,7 +27,7 @@ jobs:
                 file: ./Dockerfile
                 push: true
                 tags: ${{secrets.DOCKERHUB_USER}}/spadikam:latest
-                
+
             - name: Set permission for key
               run: |
                 echo "${{ secrets.AZUREUSER_KEY}}" > azureuser
@@ -36,5 +36,7 @@ jobs:
               run: |
                 ssh -o StrictHostKeyChecking=no -i azureuser azureuser@20.244.7.198
                 docker stop spadikam
-                docker run --name spadikam -d -p 80:3000 spadikam:latest
+                docker rm spadikam
+                docker pull ${{secrets.DOCKERHUB_USER}}/spadikam:latest
+                docker run --name spadikam -d -p 80:3000 ${{secrets.DOCKERHUB_USER}}/spadikam:latest
 
